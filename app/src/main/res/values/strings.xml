@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">EasyStoryApp</string>
+    <string name="etUsername">Username</string>
+    <string name="etPassword">Password</string>
+    <string name="tvForgotPassword">Forgot password</string>
+    <string name="btnLogin">Login</string>
+    <string name="btnSignUp">Sign up</string>
 </resources>
