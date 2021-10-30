@@ -92,9 +92,13 @@ class _LoginPageState extends State<LoginPage> {
         } else {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("La contraseña es incorrecta")));
         }
-      } else {
+      } else if (response.statusCode == 404){
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("La cuenta no existe")));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Ocurrió un problema. Inténtalo nuevamente")));
       }
+
+      print('StatusCode: ' + response.statusCode.toString());
 
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Algún campo está vacío")));
