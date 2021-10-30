@@ -1,5 +1,7 @@
 import 'dart:collection';
 
+import 'package:easystoryapp/register_page.dart';
+import 'package:easystoryapp/post_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -39,12 +41,16 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Image.asset('images/easylogo.png'),
+                    SizedBox(
+                      height: 60,
+                    ),
                     TextFormField(
                       controller: usernameController,
                       decoration: InputDecoration(
                           labelText: "Username",
                           border: OutlineInputBorder(),
-                          suffixIcon: Icon(Icons.email)),
+                          suffixIcon: Icon(Icons.login)),
                     ),
                     SizedBox(
                       height: 15,
@@ -55,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                       decoration: InputDecoration(
                           labelText: "Password",
                           border: OutlineInputBorder(),
-                          suffixIcon: Icon(Icons.email)),
+                          suffixIcon: Icon(Icons.password)),
                     ),
                     SizedBox(
                       height: 45,
@@ -69,6 +75,19 @@ class _LoginPageState extends State<LoginPage> {
                           size: 18,
                         ),
                         label: Text("Login")),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    OutlinedButton.icon(
+                        onPressed: () {
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (context) => RegisterPage()));
+                        },
+                        icon: Icon(
+                          Icons.app_registration,
+                          size: 18,
+                        ),
+                        label: Text("Register")),
                   ],))),
       )
     );
@@ -106,38 +125,6 @@ class _LoginPageState extends State<LoginPage> {
 
   }
 
-}
-
-
-class MyPostList extends StatefulWidget {
-  @override
-  _MyPostListState createState() => _MyPostListState();
-}
-
-class _MyPostListState extends State<MyPostList> {
-  List data = [];
-
-  Future<String> makeRequest() async{
-
-    String path = config.apiURL + "/api/users/1/posts";
-
-    var response = await http.get(Uri.parse(path),
-        headers: {'Content-Type': 'application/json', 'accept': '*/*', 'Authorization': 'Bearer ' + config.token});
-
-    setState(() {
-      var extractdata = json.decode(response.body);
-      data = extractdata['content'];
-      String info = data.toString();
-      print('StatusCode: ' + response.statusCode.toString());
-      print('data: ' + info);
-    });
-
-    //print(response.body);
-    print('Title: ' + data[0]['title'].toString());
-    print('Description: ' + data[0]["description"].toString());
-    return response.body;
-  }
-
   Future<String> getToken() async {
     final response = await http.post(
       Uri.parse(config.apiURL + '/api/auth/sign-in'),
@@ -163,52 +150,7 @@ class _MyPostListState extends State<MyPostList> {
     }
   }
 
-  @override
-  void initState(){
-    //this.getToken();
-    this.makeRequest();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("My posts"),
-        ),
-        body: ListView.builder(
-            itemCount: data == null ? 0 : data.length,
-            itemBuilder: (BuildContext context, i){
-              return ListTile(
-                title: Text(data[i]["title"].toString()),
-                subtitle: Text(data[i]["description"].toString()),
-                /*leading: CircleAvatar(
-                  backgroundImage:
-                  NetworkImage((data[i]["picture"]["thumbnail"])),
-                ),*/
-                onTap: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (BuildContext context) => PostDetails(data[i])));
-                },
-              );
-            })
-    );
-  }
 }
 
-class PostDetails extends StatelessWidget {
-  final index;
-  PostDetails(this.index);
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("My post details"),
-      ),
-      body: Center(
-        child: Text(index['content']),
-      ),
 
-    );
-  }
-}
+

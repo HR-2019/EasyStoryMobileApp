@@ -1,2 +1,2 @@
-String apiURL = "http://192.168.1.24:8080";
-String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzNTU2ODg1MiwiaWF0IjoxNjM1NTY3MDUyfQ._fL3rUH88iSSzhDD1XJ-DqAfH4LztuYecSioe3_HgGpvm8g-_V04MU6j8N5MbnrJnQPTyZ0JVfZeUWz_4VR5hQ";
+String apiURL = "https://easystory.herokuapp.com";
+String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzNTU4NTUwMiwiaWF0IjoxNjM1NTgzNzAyfQ.nIXU4_1C4NrqXgmNsTOdYOOawVTj5QIykHK7oHUleDwfk1skA9hRKxi7rwmIiG6kgOSgdO0TSXFtt6N_UbzYow";
