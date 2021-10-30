@@ -1,2 +1,2 @@
 String apiURL = "http://192.168.1.24:8080";
-String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzNTU2NzMzMywiaWF0IjoxNjM1NTY1NTMzfQ.R9F9tbumy1rCwRWHq_iZfMb1Vgw8IVxO-LKXVNSZLoRR7xcWQ-uqDVcik0lwtBULHVTd8DAEk2JzB8EwXlVqfw";
+String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzNTU2ODg1MiwiaWF0IjoxNjM1NTY3MDUyfQ._fL3rUH88iSSzhDD1XJ-DqAfH4LztuYecSioe3_HgGpvm8g-_V04MU6j8N5MbnrJnQPTyZ0JVfZeUWz_4VR5hQ";

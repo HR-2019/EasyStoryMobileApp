@@ -79,12 +79,21 @@ class _LoginPageState extends State<LoginPage> {
       var response = await http.get(Uri.parse(config.apiURL + "/api/users/findbyusername/" + usernameController.text),
           headers: {'Content-Type': 'application/json', 'accept': '*/*', 'Authorization': 'Bearer ' + config.token});
 
-      print(response.body.toString());
+      var data = json.decode(response.body);
+      String info = data.toString();
+      print('StatusCode: ' + response.statusCode.toString());
+      print('data: ' + info);
 
       if (response.statusCode == 200){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>MyPostList()));
+        String password = json.decode(response.body)["password"].toString();
+        if (passwordController.text == password) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MyPostList()));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("La contraseña es incorrecta")));
+        }
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("La contraseña es incorrecta")));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("La cuenta no existe")));
       }
 
     } else {
