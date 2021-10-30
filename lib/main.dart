@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> login() async{
     if (usernameController.text.isNotEmpty && passwordController.text.isNotEmpty){
       var response = await http.get(Uri.parse(config.apiURL + "/api/users/findbyusername/" + usernameController.text),
-          headers: {'Content-Type': 'application/json', 'accept': '*/*', 'Authorization': 'Bearer ' + config.apiURL});
+          headers: {'Content-Type': 'application/json', 'accept': '*/*', 'Authorization': 'Bearer ' + config.token});
 
       print(response.body.toString());
 
