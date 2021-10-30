@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:easystoryapp/page/profile_page.dart';
 import 'package:easystoryapp/register_page.dart';
 import 'package:easystoryapp/post_list_page.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                     OutlinedButton.icon(
                         onPressed: () {
                           Navigator.push(
-                              context, MaterialPageRoute(builder: (context) => RegisterPage()));
+                              context, MaterialPageRoute(builder: (context) => ProfileWriterPage()));
                         },
                         icon: Icon(
                           Icons.app_registration,

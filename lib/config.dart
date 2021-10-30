@@ -1,2 +1,2 @@
 String apiURL = "https://easystory.herokuapp.com";
-String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzNTU4NTUwMiwiaWF0IjoxNjM1NTgzNzAyfQ.nIXU4_1C4NrqXgmNsTOdYOOawVTj5QIykHK7oHUleDwfk1skA9hRKxi7rwmIiG6kgOSgdO0TSXFtt6N_UbzYow";
+String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzNTYwMzUyOCwiaWF0IjoxNjM1NjAxNzI4fQ.BlWp-zhRjxQp-lkR3iCBMIJqEZDvC_Jse-KTvY4q3m9984OFpnm0yJPfB2i-9JPrmygMFlB8lfo91__byNKhsw";
