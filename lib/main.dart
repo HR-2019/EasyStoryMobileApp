@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:easystoryapp/preferences.dart';
 import 'package:easystoryapp/register_page.dart';
 import 'package:easystoryapp/post_list_page.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,9 @@ import 'dart:convert';
 import 'config.dart' as config;
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await preferences.init();
   runApp(MyApp());
 }
 
@@ -41,8 +44,9 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getToken();
-    getTokenFromPrefs();
+    getTokenFromAPI();
+    //getTokenFromPrefs();
+    token = preferences.getToken();
   }
 
   @override
@@ -125,7 +129,14 @@ class _LoginPageState extends State<LoginPage> {
         if (passwordController.text == password) {
           /*Navigator.push(
               context, MaterialPageRoute(builder: (context) => MyPostList()));*/
-          saveUserData(userData);
+          () async {
+            await preferences.setUserId(userData['id']);
+            await preferences.setUsername(userData['username']);
+            await preferences.setFirstName(userData['firstName']);
+            await preferences.setLastName(userData['lastName']);
+            await preferences.setEmail(userData['email']);
+          };
+
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => Home(token)));
         } else {
@@ -145,9 +156,9 @@ class _LoginPageState extends State<LoginPage> {
 
   }
 
-  Future<String> getToken() async {
+  Future<String> getTokenFromAPI() async {
 
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    //final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final response = await http.post(
       Uri.parse(config.apiURL + '/api/auth/sign-in'),
@@ -166,7 +177,7 @@ class _LoginPageState extends State<LoginPage> {
       print('StatusCode: ' + response.statusCode.toString());
       print('data: ' + info);
       print('token: ' + dataf['token']);
-      prefs.setString("token", dataf['token']);
+      await preferences.setToken(dataf['token']);
       //return prefs.getString("token") ?? 'Invalid token';
       return response.body;
 
@@ -175,13 +186,13 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future<void> getTokenFromPrefs() async{
+  /*Future<void> getTokenFromPrefs() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString("token") ?? 'Invalid token';
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("¡Bienvenido!")));
-  }
+  }*/
 
-  Future<void> saveUserData(userData) async{
+  /*Future<void> saveUserData(userData) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt('userId', userData['id']);
     prefs.setString('username', userData['username']);
@@ -191,7 +202,7 @@ class _LoginPageState extends State<LoginPage> {
     prefs.setString('telephone', userData['telephone']);
     prefs.setInt('subscribers', userData['subscribers']);
     prefs.setInt('subscriptions', userData['subscriptions']);
-  }
+  }*/
 
 }
 
@@ -226,7 +237,9 @@ class HomeState extends State<Home>{
   void initState() {
     // TODO: implement initState
     super.initState();
-    getUserData();
+    userData['username'] = preferences.getUsername();
+    userData['email'] = preferences.getEmail();
+    //getUserData();
   }
 
   HomeState(this.token);
@@ -253,12 +266,12 @@ class HomeState extends State<Home>{
           child: ListView(
               children: <Widget>[
                 UserAccountsDrawerHeader(
-                  accountName: Text('username'),
-                  accountEmail: Text('email'),
+                  accountName: Text(userData['username']),
+                  accountEmail: Text(userData['email']),
                   currentAccountPicture: CircleAvatar(
                       backgroundColor: Colors.blue,
                       child: Text(
-                          'U',
+                          userData['username'][0],
                           style: TextStyle(fontSize: 40.0)
                       )
                   ),
