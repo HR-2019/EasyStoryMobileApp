@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:easystoryapp/page/profile_page.dart';
 import 'package:easystoryapp/preferences.dart';
 import 'package:easystoryapp/register_page.dart';
 import 'package:easystoryapp/post_list_page.dart';
@@ -246,6 +247,7 @@ class HomeState extends State<Home>{
   _getDrawerItemWidget(int pos){
     switch(pos){
       case 0: return MyPostList(token, userData);
+      case 4: return ProfilePage();
     }
   }
 
@@ -309,6 +311,13 @@ class HomeState extends State<Home>{
                     }
                 ),
                 Divider(),
+                ListTile(
+                    title: Text('Mi perfil'),
+                    leading: Icon(Icons.person),
+                    onTap: (){
+                      //_onSelectItem(1);
+                    }
+                ),
                 ListTile(
                     title: Text('Salir'),
                     leading: Icon(Icons.logout),

@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'utils.dart';
 
 class preferences{
 
@@ -20,19 +21,19 @@ class preferences{
       prefs?.getInt('userId') ?? 1;
 
   static Future setUsername(String username) async =>
-      await prefs?.setString('username', username);
+      await prefs?.setString('username', capitalize(username));
 
   static String getUsername() =>
       prefs?.getString('username') ?? 'username';
 
   static Future setFirstName(String firstName) async =>
-      await prefs?.setString('firstName', firstName);
+      await prefs?.setString('firstName', capitalize(firstName));
 
   static String getFirstName() =>
       prefs?.getString('firstName') ?? 'firstName';
 
   static Future setLastName(String lastName) async =>
-      await prefs?.setString('lastName', lastName);
+      await prefs?.setString('lastName', capitalize(lastName));
 
   static String getLastName() =>
       prefs?.getString('lastName') ?? 'lastName';

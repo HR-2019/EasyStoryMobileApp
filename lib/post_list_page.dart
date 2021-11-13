@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'package:easystoryapp/widget/item_card.dart';
 
 import 'config.dart' as config;
 
@@ -54,22 +55,15 @@ class _MyPostListState extends State<MyPostList> {
     makeRequest();
   }
 
-  @override
+  /*@override
   Widget build(BuildContext context) {
     return Scaffold(
-        /*appBar: AppBar(
-          title: Text("My posts"),
-        ),*/
         body: ListView.builder(
             itemCount: data == null ? 0 : data.length,
             itemBuilder: (BuildContext context, i){
               return ListTile(
                 title: Text(data[i]["title"].toString()),
                 subtitle: Text(data[i]["description"].toString()),
-                /*leading: CircleAvatar(
-                  backgroundImage:
-                  NetworkImage((data[i]["picture"]["thumbnail"])),
-                ),*/
                 onTap: (){
                   Navigator.push(
                       context,
@@ -78,7 +72,44 @@ class _MyPostListState extends State<MyPostList> {
               );
             })
     );
+  }*/
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color(0xFFFCFAF8),
+      body: ListView(
+        children: <Widget>[
+          SizedBox(height: 15.0),
+          Container(
+              padding: EdgeInsets.only(right: 15.0),
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width - 30.0,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height - 50.0,
+              child: GridView.builder(
+                  itemCount: data.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 15.0,
+                    crossAxisSpacing: 10.0,
+                    childAspectRatio: 0.8,
+                  ),
+                  itemBuilder: (context,i) =>ItemCard(
+                      data[i]['title'], data[i]['description'], data[i]['content']
+                  )
+
+              )),
+          SizedBox(height: 15.0)
+        ],
+      ),
+    );
   }
+
 }
 
 class PostDetails extends StatelessWidget {
@@ -97,111 +128,3 @@ class PostDetails extends StatelessWidget {
     );
   }
 }
-
-// class EditPost extends StatelessWidget {
-//   final index;
-//   EditPost(this.index);
-//
-//   var titleController = TextEditingController();
-//   var descriptionController = TextEditingController();
-//   var contentController = TextEditingController();
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text("Edit Post"),
-//       ),
-//         body: Padding(
-//           padding: const EdgeInsets.all(10.0),
-//           child: SafeArea(
-//               child: Center(
-//                   child: Column(
-//                     mainAxisAlignment: MainAxisAlignment.center,
-//                     children: [
-//                       TextFormField(
-//                         controller: titleController,
-//                         decoration: InputDecoration(
-//                             labelText: "Title",
-//                             border: OutlineInputBorder(),
-//                             suffixIcon: Icon(Icons.login)),
-//                         initialValue: index['title'],
-//                       ),
-//                       SizedBox(
-//                         height: 15,
-//                       ),
-//                       TextFormField(
-//                         controller: descriptionController,
-//                         obscureText: true,
-//                         decoration: InputDecoration(
-//                             labelText: "Description",
-//                             border: OutlineInputBorder(),
-//                             suffixIcon: Icon(Icons.password)),
-//                         initialValue: index['description'],
-//                       ),
-//                       SizedBox(
-//                         height: 15,
-//                       ),
-//                       TextFormField(
-//                         controller: contentController,
-//                         obscureText: true,
-//                         decoration: InputDecoration(
-//                             labelText: "Content",
-//                             border: OutlineInputBorder(),
-//                             suffixIcon: Icon(Icons.password)),
-//                         initialValue: index['content'],
-//                       ),
-//                       SizedBox(
-//                         height: 45,
-//                       ),
-//                       OutlinedButton.icon(
-//                           onPressed: () {
-//                             edit();
-//                           },
-//                           icon: Icon(
-//                             Icons.login,
-//                             size: 18,
-//                           ),
-//                           label: Text("Edit")),
-//                     ],))),
-//         ),
-//
-//     );
-//   }
-//
-//   Future<void> edit() async{
-//     if (titleController.text.isNotEmpty && descriptionController.text.isNotEmpty && contentController.text.isNotEmpty){
-//
-//       Map data = {
-//         'title': titleController.text,
-//         'description': descriptionController.text,
-//         'content': contentController.text
-//       };
-//
-//       var body = json.encode(data);
-//
-//       var response = await http.post(Uri.parse(config.apiURL + "/api/users/"),
-//           body: body,
-//           headers: {'Content-Type': 'application/json', 'accept': '*/*', 'Authorization': 'Bearer ' + config.token});
-//
-//       var json_decode = json.decode(response.body);
-//       String info = json_decode.toString();
-//       print('StatusCode: ' + response.statusCode.toString());
-//       print('data: ' + info);
-//
-//       if (response.statusCode == 200){
-//         //Navigator.of(context).pop();
-//         //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Se actualizó correctamente")));
-//       } else {
-//         //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Ocurrió un problema. Inténtalo nuevamente")));
-//       }
-//
-//       print('StatusCode: ' + response.statusCode.toString());
-//
-//     } else {
-//       //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Algún campo está vacío")));
-//     }
-//
-//   }
-//
-// }
