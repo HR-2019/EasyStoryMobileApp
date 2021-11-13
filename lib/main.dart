@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:easystoryapp/page/home_page.dart';
 import 'package:easystoryapp/page/profile_page.dart';
 import 'package:easystoryapp/register_page.dart';
 import 'package:easystoryapp/post_list_page.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LoginPage(),
+      home: HomePage(),
     );
   }
 }
