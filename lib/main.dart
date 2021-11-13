@@ -130,13 +130,14 @@ class _LoginPageState extends State<LoginPage> {
         if (passwordController.text == password) {
           /*Navigator.push(
               context, MaterialPageRoute(builder: (context) => MyPostList()));*/
-          () async {
             await preferences.setUserId(userData['id']);
             await preferences.setUsername(userData['username']);
             await preferences.setFirstName(userData['firstName']);
             await preferences.setLastName(userData['lastName']);
             await preferences.setEmail(userData['email']);
-          };
+            await preferences.setTelephone(userData['telephone']);
+            await preferences.setSubscribers(userData['subscribers']);
+            await preferences.setSubscriptions(userData['subscriptions']);
 
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => Home(token)));
@@ -314,8 +315,9 @@ class HomeState extends State<Home>{
                 ListTile(
                     title: Text('Mi perfil'),
                     leading: Icon(Icons.person),
+                    selected: (4 == _selectDrawerItem),
                     onTap: (){
-                      //_onSelectItem(1);
+                      _onSelectItem(4);
                     }
                 ),
                 ListTile(
@@ -332,7 +334,7 @@ class HomeState extends State<Home>{
     );
   }
 
-  Future<void> getUserData() async{
+  /*Future<void> getUserData() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     userData['userId'] = prefs.getInt('userId') ?? 1;
     userData['username'] = prefs.getString('username') ?? 'No username';
@@ -343,6 +345,6 @@ class HomeState extends State<Home>{
     userData['subscribers'] = prefs.getInt('subscribers') ?? 'Suscriptores';
     userData['subscriptions'] = prefs.getInt('subscriptions') ?? 'Suscripciones';
     print(userData);
-  }
+  }*/
 
 }

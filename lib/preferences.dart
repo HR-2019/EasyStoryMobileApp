@@ -44,4 +44,22 @@ class preferences{
   static String getEmail() =>
       prefs?.getString('email') ?? 'email';
 
+  static Future setTelephone(String telephone) async =>
+      await prefs?.setString('telephone', telephone);
+
+  static String getTelephone() =>
+      prefs?.getString('telephone') ?? '999000123';
+
+  static Future setSubscribers(int subscribers) async =>
+      await prefs?.setInt('subscribers', subscribers);
+
+  static int getSubscribers() =>
+      prefs?.getInt('subscribers') ?? 1;
+
+  static Future setSubscriptions(int subscriptions) async =>
+      await prefs?.setInt('subscriptions', subscriptions);
+
+  static int getSubscriptions() =>
+      prefs?.getInt('subscriptions') ?? 1;
+
 }

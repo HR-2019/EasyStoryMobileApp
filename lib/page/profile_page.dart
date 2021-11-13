@@ -24,6 +24,8 @@ class _ProfilePageState extends State<ProfilePage> {
     userData['lastName'] = preferences.getLastName();
     userData['username'] = preferences.getUsername();
     userData['email'] = preferences.getEmail();
+    userData['subscribers'] = preferences.getSubscribers();
+    userData['subscriptions'] = preferences.getSubscriptions();
     //getUserData();
   }
 
@@ -35,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
         physics: BouncingScrollPhysics(),
         children: [
           ProfileWidget(
-            imagePath: '#',
+            imagePath: 'https://cdn4.iconfinder.com/data/icons/political-elections/50/48-512.png',
             onClicked: () {
               /*Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => EditProfilePage()),
@@ -108,6 +110,8 @@ class _ProfileWriterPageState extends State<ProfileWriterPage> {
     userData['lastName'] = preferences.getLastName();
     userData['username'] = preferences.getUsername();
     userData['email'] = preferences.getEmail();
+    userData['subscribers'] = preferences.getSubscribers();
+    userData['subscriptions'] = preferences.getSubscriptions();
     //getUserData();
   }
 
