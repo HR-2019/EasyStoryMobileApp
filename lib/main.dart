@@ -1,13 +1,18 @@
 import 'dart:collection';
 
+import 'package:easystoryapp/page/profile_page.dart';
+import 'package:easystoryapp/preferences.dart';
 import 'package:easystoryapp/register_page.dart';
 import 'package:easystoryapp/post_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'config.dart' as config;
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await preferences.init();
   runApp(MyApp());
 }
 
@@ -16,6 +21,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: LoginPage(),
+        theme: ThemeData(
+            primaryColor: Color(0xFF2F008E),
+            accentColor: Color(0xFFFDD303)
+        )
     );
   }
 }
@@ -30,6 +39,16 @@ class _LoginPageState extends State<LoginPage> {
 
   var usernameController = TextEditingController();
   var passwordController = TextEditingController();
+  String token = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getTokenFromAPI();
+    //getTokenFromPrefs();
+    token = preferences.getToken();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                     OutlinedButton.icon(
                         onPressed: () {
                           Navigator.push(
-                              context, MaterialPageRoute(builder: (context) => RegisterPage()));
+                              context, MaterialPageRoute(builder: (context) => RegisterPage(token)));
                         },
                         icon: Icon(
                           Icons.app_registration,
@@ -94,20 +113,34 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> login() async{
+
+    print('El token al iniciar eeeees: ' + token);
+
     if (usernameController.text.isNotEmpty && passwordController.text.isNotEmpty){
       var response = await http.get(Uri.parse(config.apiURL + "/api/users/findbyusername/" + usernameController.text),
-          headers: {'Content-Type': 'application/json', 'accept': '*/*', 'Authorization': 'Bearer ' + config.token});
+          headers: {'Content-Type': 'application/json', 'accept': '*/*', 'Authorization': 'Bearer ' + token});
 
-      var data = json.decode(response.body);
-      String info = data.toString();
+      var userData = json.decode(response.body);
+      String info = userData.toString();
       print('StatusCode: ' + response.statusCode.toString());
       print('data: ' + info);
 
       if (response.statusCode == 200){
         String password = json.decode(response.body)["password"].toString();
         if (passwordController.text == password) {
+          /*Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MyPostList()));*/
+            await preferences.setUserId(userData['id']);
+            await preferences.setUsername(userData['username']);
+            await preferences.setFirstName(userData['firstName']);
+            await preferences.setLastName(userData['lastName']);
+            await preferences.setEmail(userData['email']);
+            await preferences.setTelephone(userData['telephone']);
+            await preferences.setSubscribers(userData['subscribers']);
+            await preferences.setSubscriptions(userData['subscriptions']);
+
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => MyPostList()));
+              context, MaterialPageRoute(builder: (context) => Home(token)));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("La contraseña es incorrecta")));
         }
@@ -125,7 +158,10 @@ class _LoginPageState extends State<LoginPage> {
 
   }
 
-  Future<String> getToken() async {
+  Future<String> getTokenFromAPI() async {
+
+    //final SharedPreferences prefs = await SharedPreferences.getInstance();
+
     final response = await http.post(
       Uri.parse(config.apiURL + '/api/auth/sign-in'),
       headers: <String, String>{
@@ -143,6 +179,8 @@ class _LoginPageState extends State<LoginPage> {
       print('StatusCode: ' + response.statusCode.toString());
       print('data: ' + info);
       print('token: ' + dataf['token']);
+      await preferences.setToken(dataf['token']);
+      //return prefs.getString("token") ?? 'Invalid token';
       return response.body;
 
     } else {
@@ -150,7 +188,163 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  /*Future<void> getTokenFromPrefs() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString("token") ?? 'Invalid token';
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("¡Bienvenido!")));
+  }*/
+
+  /*Future<void> saveUserData(userData) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('userId', userData['id']);
+    prefs.setString('username', userData['username']);
+    prefs.setString('firstName', userData['firstName']);
+    prefs.setString('lastName', userData['lastName']);
+    prefs.setString('email', userData['email']);
+    prefs.setString('telephone', userData['telephone']);
+    prefs.setInt('subscribers', userData['subscribers']);
+    prefs.setInt('subscriptions', userData['subscriptions']);
+  }*/
+
 }
 
+/*class Home extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Navigation drawer',
+      home: MyPostList(),
+      theme: ThemeData(
+        primaryColor: Color(0xFF2F008E),
+        accentColor: Color(0xFFFDD303)
+      )
+    );
+  }
+}*/
 
+class Home extends StatefulWidget{
+  String token;
+  Home(this.token);
 
+  HomeState createState() => HomeState(token);
+
+}
+
+class HomeState extends State<Home>{
+  int _selectDrawerItem = 0;
+  String token;
+  Map userData = {};
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    userData['username'] = preferences.getUsername();
+    userData['email'] = preferences.getEmail();
+    //getUserData();
+  }
+
+  HomeState(this.token);
+  _getDrawerItemWidget(int pos){
+    switch(pos){
+      case 0: return MyPostList(token, userData);
+      case 4: return ProfilePage();
+    }
+  }
+
+  _onSelectItem(int pos){
+    Navigator.of(context).pop();
+    setState(() {
+      _selectDrawerItem = pos;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+          title: Text('EasyStoryApp')
+      ),
+      drawer: Drawer(
+          child: ListView(
+              children: <Widget>[
+                UserAccountsDrawerHeader(
+                  accountName: Text(userData['username']),
+                  accountEmail: Text(userData['email']),
+                  currentAccountPicture: CircleAvatar(
+                      backgroundColor: Colors.blue,
+                      child: Text(
+                          userData['username'][0],
+                          style: TextStyle(fontSize: 40.0)
+                      )
+                  ),
+                ),
+                ListTile(
+                    title: Text('Mis publicaciones'),
+                    leading: Icon(Icons.list),
+                    selected: (0 == _selectDrawerItem),
+                    onTap: (){
+                      _onSelectItem(0);
+                    }
+                ),
+                ListTile(
+                    title: Text('Publicaciones guardadas'),
+                    leading: Icon(Icons.list_alt_sharp),
+                    selected: (1 == _selectDrawerItem),
+                    onTap: (){
+                      //_onSelectItem(1);
+                    }
+                ),
+                ListTile(
+                    title: Text('Mis hashtags'),
+                    leading: Icon(Icons.format_list_numbered),
+                    selected: (1 == _selectDrawerItem),
+                    onTap: (){
+                      //_onSelectItem(1);
+                    }
+                ),
+                ListTile(
+                    title: Text('Pagos'),
+                    leading: Icon(Icons.payment),
+                    selected: (1 == _selectDrawerItem),
+                    onTap: (){
+                      //_onSelectItem(1);
+                    }
+                ),
+                Divider(),
+                ListTile(
+                    title: Text('Mi perfil'),
+                    leading: Icon(Icons.person),
+                    selected: (4 == _selectDrawerItem),
+                    onTap: (){
+                      _onSelectItem(4);
+                    }
+                ),
+                ListTile(
+                    title: Text('Salir'),
+                    leading: Icon(Icons.logout),
+                    onTap: (){
+                      //_onSelectItem(1);
+                    }
+                )
+              ]
+          )
+      ),
+      body: _getDrawerItemWidget(_selectDrawerItem)
+    );
+  }
+
+  /*Future<void> getUserData() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userData['userId'] = prefs.getInt('userId') ?? 1;
+    userData['username'] = prefs.getString('username') ?? 'No username';
+    userData['firstName'] = prefs.getString('firstName') ?? 'Primer nombre';
+    userData['lastName'] = prefs.getString('lastName') ?? 'Apellido';
+    userData['email'] = prefs.getString('email') ?? 'Email';
+    userData['telephone'] = prefs.getString('telephone') ?? 'Telefono';
+    userData['subscribers'] = prefs.getInt('subscribers') ?? 'Suscriptores';
+    userData['subscriptions'] = prefs.getInt('subscriptions') ?? 'Suscripciones';
+    print(userData);
+  }*/
+
+}

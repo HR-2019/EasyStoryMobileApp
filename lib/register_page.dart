@@ -6,12 +6,19 @@ import 'post_list_page.dart';
 import 'config.dart' as config;
 
 class RegisterPage extends StatefulWidget {
+  String token;
+  RegisterPage(this.token);
 
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  _RegisterPageState createState() => _RegisterPageState(token);
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+
+  String token;
+
+  _RegisterPageState(this.token);
+
   var usernameController = TextEditingController();
   var passwordController = TextEditingController();
   var firstnameController = TextEditingController();
@@ -123,7 +130,7 @@ class _RegisterPageState extends State<RegisterPage> {
         'email': emailController.text,
         'telephone': telephoneController.text
       };
-      //encode Map to JSON
+
       var body = json.encode(data);
 
       var response = await http.post(Uri.parse(config.apiURL + "/api/users/"),
@@ -135,8 +142,8 @@ class _RegisterPageState extends State<RegisterPage> {
       print('data: ' + info);
 
       if (response.statusCode == 200){
-        Navigator.push(
-              context, MaterialPageRoute(builder: (context) => MyPostList()));
+        /*Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MyPostList(token)));*/
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Ocurrió un problema. Inténtalo nuevamente")));
       }
