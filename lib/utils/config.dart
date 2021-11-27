@@ -1,2 +1,0 @@
-String apiURL = "https://easystory.herokuapp.com";
-String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzOTA2MDgxNiwiaWF0IjoxNjM3OTgwODE2fQ.CnpNQW65FEaX2YuluGFw0oTe9xB7vFeb96ykL--spasrMM1NXA8XKZt6U83GcJor4wYXkRqwbEdHzPbNBjNnRw";

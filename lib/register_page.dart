@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'post_list.dart';
-import '../utils/config.dart' as config;
+import 'post_list_page.dart';
+import 'config.dart' as config;
 
-class Register extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   String token;
-  Register(this.token);
+  RegisterPage(this.token);
 
   @override
-  _RegisterState createState() => _RegisterState(token);
+  _RegisterPageState createState() => _RegisterPageState(token);
 }
 
-class _RegisterState extends State<Register> {
+class _RegisterPageState extends State<RegisterPage> {
 
   String token;
 
-  _RegisterState(this.token);
+  _RegisterPageState(this.token);
 
   var usernameController = TextEditingController();
   var passwordController = TextEditingController();

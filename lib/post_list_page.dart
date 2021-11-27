@@ -3,50 +3,45 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:easystoryapp/widget/item_card.dart';
-import 'package:easystoryapp/utils/http_helper.dart';
 
-import '../utils/config.dart' as config;
+import 'config.dart' as config;
 
-class PostList extends StatefulWidget {
+class MyPostList extends StatefulWidget {
   String token;
   Map userData;
-  PostList(this.token, this.userData);
+  MyPostList(this.token, this.userData);
 
   @override
-  _PostListState createState() => _PostListState(token, userData);
+  _MyPostListState createState() => _MyPostListState(token, userData);
 }
 
-class _PostListState extends State<PostList> {
+class _MyPostListState extends State<MyPostList> {
   List data = [];
   String token;
   Map userData;
 
-  int postsCount = 0;
-  late HttpHelper helper;
-  late List posts;
+  _MyPostListState(this.token, this.userData);
 
-  _PostListState(this.token, this.userData);
+  Future<String> makeRequest() async{
 
-  // Future<String> makeRequest() async{
-  //
-  //   String path = config.apiURL + "/api/users/1/posts";
-  //
-  //   var response = await http.get(Uri.parse(path),
-  //       headers: {'Content-Type': 'application/json', 'accept': '*/*', 'Authorization': 'Bearer ' + token});
-  //
-  //   setState(() {
-  //     var extractdata = json.decode(response.body);
-  //     data = extractdata['content'];
-  //     String info = data.toString();
-  //     print('StatusCode: ' + response.statusCode.toString());
-  //     print('data: ' + info);
-  //   });
-  //
-  //   //print(response.body);
-  //   print('Title: ' + data[0]['title'].toString());
-  //   print('Description: ' + data[0]["description"].toString());
-  //   return response.body;
-  // }
+    String path = config.apiURL + "/api/users/1/posts";
+
+    var response = await http.get(Uri.parse(path),
+        headers: {'Content-Type': 'application/json', 'accept': '*/*', 'Authorization': 'Bearer ' + token});
+
+    setState(() {
+      var extractdata = json.decode(response.body);
+      data = extractdata['content'];
+      String info = data.toString();
+      print('StatusCode: ' + response.statusCode.toString());
+      print('data: ' + info);
+    });
+
+    //print(response.body);
+    print('Title: ' + data[0]['title'].toString());
+    print('Description: ' + data[0]["description"].toString());
+    return response.body;
+  }
 
   Future<void> getTokenFromPrefs() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -56,10 +51,8 @@ class _PostListState extends State<PostList> {
   @override
   void initState(){
     getTokenFromPrefs();
-    helper = HttpHelper();
-    initialize();
     print('post_list_page: ' + token);
-    //makeRequest();
+    makeRequest();
   }
 
   /*@override
@@ -99,7 +92,7 @@ class _PostListState extends State<PostList> {
                   .size
                   .height - 50.0,
               child: GridView.builder(
-                  itemCount: postsCount,
+                  itemCount: data.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: 15.0,
@@ -107,7 +100,7 @@ class _PostListState extends State<PostList> {
                     childAspectRatio: 0.8,
                   ),
                   itemBuilder: (context,i) =>ItemCard(
-                      posts[i].title, posts[i].description, posts[i].content
+                      data[i]['title'], data[i]['description'], data[i]['content']
                   )
 
               )),
@@ -115,16 +108,6 @@ class _PostListState extends State<PostList> {
         ],
       ),
     );
-  }
-
-  Future initialize() async {
-
-    posts = await helper.getPostsList();
-    setState(() {
-      postsCount = posts.length;
-      posts = posts;
-    });
-
   }
 
 }
