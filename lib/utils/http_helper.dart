@@ -22,7 +22,7 @@ class HttpHelper{
       String info = postsMap.toString();
       print('data: ' + info);
       List posts = postsMap.map((i) => Post.fromJson(i)).toList();
-      print('data of post list: ' + posts.toString());
+      //print('data of post list: ' + posts.toString());
       return posts;
     } else {
       return null!;
@@ -38,6 +38,31 @@ class HttpHelper{
     print('Title: ' + data[0]['title'].toString());
     print('Description: ' + data[0]["description"].toString());
     return response.body;*/
+  }
+
+  Future<bool> registerAPost(Post post) async {
+
+    String path = config.apiURL + "/api/users/1/posts";
+    var response = await http.post(Uri.parse(path), headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+      body: jsonEncode(<String, String>{
+        'title': post.title,
+        'description': post.description,
+        'content': post.content,
+      })
+    );
+
+    if (response.statusCode == HttpStatus.ok){
+
+      final jsonResponse = json.decode(response.body);
+      String info = jsonResponse.toString();
+      print('dataPost: ' + info);
+      return true;
+    } else {
+      return false;
+    }
+
   }
 
 }

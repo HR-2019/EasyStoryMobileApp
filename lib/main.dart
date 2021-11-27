@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:easystoryapp/page/profile.dart';
+import 'package:easystoryapp/page/register_post.dart';
 import 'package:easystoryapp/utils/preferences.dart';
 import 'package:easystoryapp/page/register.dart';
 import 'package:easystoryapp/page/post_list.dart';
@@ -262,9 +263,15 @@ class HomeState extends State<Home>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text('EasyStoryApp')
-      ),
+      appBar: AppBar(title: Text('EasyStoryApp'), actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => RegisterPost()));
+              },
+            ),
+          ]),
       drawer: Drawer(
           child: ListView(
               children: <Widget>[
