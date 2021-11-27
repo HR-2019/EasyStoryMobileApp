@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:easystoryapp/page/contacts_list.dart';
 import 'package:easystoryapp/page/profile.dart';
 import 'package:easystoryapp/page/register_post.dart';
 import 'package:easystoryapp/page/saved_posts.dart';
@@ -250,7 +251,7 @@ class HomeState extends State<Home>{
   _getDrawerItemWidget(int pos){
     switch(pos){
       case 0: return PostList(token, userData);
-      case 1: return SavedPosts();
+      case 1: return ContactsList();
       case 4: return Profile();
     }
   }
