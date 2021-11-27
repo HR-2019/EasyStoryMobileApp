@@ -1,9 +1,9 @@
 import 'dart:collection';
 
-import 'package:easystoryapp/page/profile_page.dart';
+import 'package:easystoryapp/page/profile.dart';
 import 'package:easystoryapp/utils/preferences.dart';
-import 'package:easystoryapp/page/register_page.dart';
-import 'package:easystoryapp/page/post_list_page.dart';
+import 'package:easystoryapp/page/register.dart';
+import 'package:easystoryapp/page/post_list.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                     OutlinedButton.icon(
                         onPressed: () {
                           Navigator.push(
-                              context, MaterialPageRoute(builder: (context) => RegisterPage(token)));
+                              context, MaterialPageRoute(builder: (context) => Register(token)));
                         },
                         icon: Icon(
                           Icons.app_registration,
@@ -247,8 +247,8 @@ class HomeState extends State<Home>{
   HomeState(this.token);
   _getDrawerItemWidget(int pos){
     switch(pos){
-      case 0: return MyPostList(token, userData);
-      case 4: return ProfilePage();
+      case 0: return PostList(token, userData);
+      case 4: return Profile();
     }
   }
 

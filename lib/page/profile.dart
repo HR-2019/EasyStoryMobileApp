@@ -8,12 +8,12 @@ import 'package:easystoryapp/utils/preferences.dart';
 
 import 'edit_profile.dart';
 
-class ProfilePage extends StatefulWidget {
+class Profile extends StatefulWidget {
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _ProfileState createState() => _ProfileState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfileState extends State<Profile> {
 
   Map userData = {};
 
