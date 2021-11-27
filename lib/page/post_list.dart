@@ -1,3 +1,4 @@
+import 'package:easystoryapp/model/post.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,19 +14,19 @@ class PostList extends StatefulWidget {
   PostList(this.token, this.userData);
 
   @override
-  _PostListState createState() => _PostListState(token, userData);
+  _PostListState createState() => _PostListState(token);
 }
 
 class _PostListState extends State<PostList> {
   List data = [];
   String token;
-  Map userData;
+  //Map userData;
 
   int postsCount = 0;
   late HttpHelper helper;
   late List posts;
 
-  _PostListState(this.token, this.userData);
+  _PostListState(this.token);
 
   // Future<String> makeRequest() async{
   //
@@ -107,7 +108,7 @@ class _PostListState extends State<PostList> {
                     childAspectRatio: 0.8,
                   ),
                   itemBuilder: (context,i) =>ItemCard(
-                      posts[i].title, posts[i].description, posts[i].content
+                      Post(posts[i].createdAt, posts[i].updatedAt, posts[i].id, posts[i].userId, posts[i].title, posts[i].description, posts[i].content)
                   )
 
               )),

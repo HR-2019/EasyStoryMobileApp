@@ -30,4 +30,15 @@ class Post {
     data['content'] = this.content;
     return data;
   }
+
+  Map<String, dynamic> toMap(){
+    return{
+      'id': id,
+      'userId': userId,
+      'title': title,
+      'description': description,
+      'content': content
+    };
+  }
+
 }

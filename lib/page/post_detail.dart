@@ -1,10 +1,17 @@
+import 'package:easystoryapp/model/post.dart';
+import 'package:easystoryapp/model/post.dart';
 import 'package:easystoryapp/page/profile.dart';
+import 'package:easystoryapp/utils/database.dart';
+import 'package:easystoryapp/utils/db_helper.dart';
 import 'package:flutter/material.dart';
 
 class PostDetail extends StatelessWidget {
-  final image, title, content, userId;
+  //final image, id, userId, title, description, content;
+  DbHelper helper = DbHelper();
+  String image;
+  Post post;
 
-  PostDetail({this.image, this.title, this.content, this.userId});
+  PostDetail(this.image, this.post);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,15 +25,18 @@ class PostDetail extends StatelessWidget {
             Navigator.of(context).pop();
           },
         ),
-        title: Text('Pickup',
+        title: Text('Publicación',
             style: TextStyle(
                 fontFamily: 'Varela',
                 fontSize: 20.0,
                 color: Color(0xFF545D68))),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.notifications_none, color: Color(0xFF545D68)),
-            onPressed: () {},
+            icon: Icon(Icons.favorite, color: Color(0xFF545D68)),
+            onPressed: () {
+              //helper.insertPost(post);
+              AppDatabase().insertNewStory(Story(id: post.id, userId: post.userId, title: post.title, description: post.description, content: post.content));
+            },
           ),
         ],
       ),
@@ -65,7 +75,7 @@ class PostDetail extends StatelessWidget {
 
             SizedBox(height: 10.0),
             Center(
-              child: Text(title,
+              child: Text(post.title,
                   style: TextStyle(
                       color: Color(0xFF575E67),
                       fontFamily: 'Varela',
@@ -75,7 +85,7 @@ class PostDetail extends StatelessWidget {
             Center(
               child: Container(
                 width: MediaQuery.of(context).size.width - 50.0,
-                child: Text(content,
+                child: Text(post.content,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontFamily: 'Varela',

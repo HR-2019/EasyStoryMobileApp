@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:easystoryapp/page/profile.dart';
 import 'package:easystoryapp/page/register_post.dart';
+import 'package:easystoryapp/page/saved_posts.dart';
 import 'package:easystoryapp/utils/preferences.dart';
 import 'package:easystoryapp/page/register.dart';
 import 'package:easystoryapp/page/post_list.dart';
@@ -249,6 +250,7 @@ class HomeState extends State<Home>{
   _getDrawerItemWidget(int pos){
     switch(pos){
       case 0: return PostList(token, userData);
+      case 1: return SavedPosts();
       case 4: return Profile();
     }
   }
@@ -299,13 +301,13 @@ class HomeState extends State<Home>{
                     leading: Icon(Icons.list_alt_sharp),
                     selected: (1 == _selectDrawerItem),
                     onTap: (){
-                      //_onSelectItem(1);
+                      _onSelectItem(1);
                     }
                 ),
                 ListTile(
                     title: Text('Mis hashtags'),
                     leading: Icon(Icons.format_list_numbered),
-                    selected: (1 == _selectDrawerItem),
+                    selected: (2 == _selectDrawerItem),
                     onTap: (){
                       //_onSelectItem(1);
                     }
@@ -313,7 +315,7 @@ class HomeState extends State<Home>{
                 ListTile(
                     title: Text('Pagos'),
                     leading: Icon(Icons.payment),
-                    selected: (1 == _selectDrawerItem),
+                    selected: (3 == _selectDrawerItem),
                     onTap: (){
                       //_onSelectItem(1);
                     }
