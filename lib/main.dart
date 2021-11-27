@@ -1,13 +1,13 @@
 import 'dart:collection';
 
 import 'package:easystoryapp/page/profile_page.dart';
-import 'package:easystoryapp/preferences.dart';
-import 'package:easystoryapp/register_page.dart';
-import 'package:easystoryapp/post_list_page.dart';
+import 'package:easystoryapp/utils/preferences.dart';
+import 'package:easystoryapp/page/register_page.dart';
+import 'package:easystoryapp/page/post_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'config.dart' as config;
+import 'utils/config.dart' as config;
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async{
