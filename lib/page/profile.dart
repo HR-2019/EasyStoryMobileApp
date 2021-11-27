@@ -4,14 +4,16 @@ import 'package:easystoryapp/widget/numbers_widget.dart';
 import 'package:easystoryapp/widget/profile_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:easystoryapp/preferences.dart';
+import 'package:easystoryapp/utils/preferences.dart';
 
-class ProfilePage extends StatefulWidget {
+import 'edit_profile.dart';
+
+class Profile extends StatefulWidget {
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _ProfileState createState() => _ProfileState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfileState extends State<Profile> {
 
   Map userData = {};
 
@@ -39,9 +41,9 @@ class _ProfilePageState extends State<ProfilePage> {
           ProfileWidget(
             imagePath: 'https://cdn4.iconfinder.com/data/icons/political-elections/50/48-512.png',
             onClicked: () {
-              /*Navigator.of(context).push(
+              Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => EditProfilePage()),
-              );*/
+              );
             },
           ),
           const SizedBox(height: 24),

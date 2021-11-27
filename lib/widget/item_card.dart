@@ -1,12 +1,16 @@
+import 'package:easystoryapp/model/post.dart';
 import 'package:easystoryapp/page/post_detail.dart';
 import 'package:flutter/material.dart';
 
 class ItemCard extends StatelessWidget {
+  /*int id;
+  int userId;
   String title;
   String description;
-  String content;
+  String content;*/
+  Post post;
 
-  ItemCard(this.title, this.description, this.content);
+  ItemCard(this.post);
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +20,8 @@ class ItemCard extends StatelessWidget {
             onTap: () {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => PostDetail(
-                    image: 'https://arbolabc.nyc3.cdn.digitaloceanspaces.com/Cuentos_Infantiles/cuentos_clasicos/images/risitos1.jpg',
-                    title: title,
-                    content: content,
-                    //userId: post['userId'],
+                    'https://arbolabc.nyc3.cdn.digitaloceanspaces.com/Cuentos_Infantiles/cuentos_clasicos/images/risitos1.jpg',
+                    post
                   )));
             },
             child: Container(
@@ -36,7 +38,7 @@ class ItemCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Center(
-                        child: Text(title,
+                        child: Text(post.title,
                           style: TextStyle(
                               color: Color(0xFF575E67),
                               fontFamily: 'Varela',
@@ -45,12 +47,12 @@ class ItemCard extends StatelessWidget {
                       ),
                       Expanded(child: Container(
                         child: Hero(
-                          tag: title,
+                          tag: post.title,
                           child: Image.network('https://arbolabc.nyc3.cdn.digitaloceanspaces.com/Cuentos_Infantiles/cuentos_clasicos/images/risitos1.jpg'),
                         ),
                       )),
                       Center(
-                        child: Text(description,
+                        child: Text(post.description,
                           style: TextStyle(
                               color: Color(0xFF575E67),
                               fontFamily: 'Varela',
