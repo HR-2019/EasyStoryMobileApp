@@ -1,4 +1,4 @@
-import 'package:easystoryapp/page/profile_page.dart';
+import 'package:easystoryapp/page/profile.dart';
 import 'package:flutter/material.dart';
 
 class PostDetail extends StatelessWidget {
@@ -47,7 +47,7 @@ class PostDetail extends StatelessWidget {
                             color: Color(0xFFF17532))
                     ),
                     Padding(padding: EdgeInsets.only(left: 90.0)),
-                    //buildImage(context)
+                    buildImage(context)
 
                   ],
                 )
@@ -91,7 +91,7 @@ class PostDetail extends StatelessWidget {
     );
   }
 
-  /*Widget buildImage(BuildContext context) {
+  Widget buildImage(BuildContext context) {
     final image = NetworkImage("https://www.hola.com/imagenes/actualidad/20180621126047/mario-vargas-llosa-comunicado/0-578-592/mario-vargasllosa1-t.jpg?filter=w600");
 
     return ClipOval(
@@ -105,10 +105,10 @@ class PostDetail extends StatelessWidget {
           child: InkWell(onTap: (){
             Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) =>
-                    ProfilePage()));
+                    Profile()));
           }),
         ),
       ),
     );
-  }*/
+  }
 }
